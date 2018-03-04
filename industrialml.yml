@@ -10,10 +10,10 @@ dependencies:
 - scikit-learn      # BSD
 - setuptools        # MIT
 - pandas
-- pandas-datareader==0.4.1
 - matplotlib
 - pip:
   - celery                        # BSD
   - mock                          # BSD
   - fix_yahoo_finance
   - flower
+  - fbprophet
