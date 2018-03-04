@@ -1,0 +1,19 @@
+name: industrialml
+channels:
+- defaults
+- conda-forge
+dependencies:
+- python=3.6.1      # PSF
+- numpy             # BSD-new
+- pytest            # MIT
+- scipy             # BSD
+- scikit-learn      # BSD
+- setuptools        # MIT
+- pandas
+- pandas-datareader==0.4.1
+- matplotlib
+- pip:
+  - celery                        # BSD
+  - mock                          # BSD
+  - fix_yahoo_finance
+  - flower
