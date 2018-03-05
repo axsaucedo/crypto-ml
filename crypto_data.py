@@ -19,7 +19,7 @@ class CryptoLoader:
                 if "100" in file:
                     continue
                 cols = ["Date", "Open", "High", "Low", "Close", "Volume", "Market Cap"]
-                log.debug("Loading: ", file)
+                log.debug("Loading: " + file)
                 try:
                     df = pd.read_csv(os.path.join(data_path, file) 
                                         , parse_dates=['Date']
@@ -27,32 +27,26 @@ class CryptoLoader:
                     # Remove extension, caps, and whitespace
                     crypto_name = file[:-4].lower().replace(' ', '_')
                     self._crypto_data[crypto_name] = df
-                    log.debug("Loaded as ", crypto_name)
+                    log.debug("Loaded as " + crypto_name)
                 except Exception:
-                    log.exception("Error loading", file)
+                    log.exception("Error loading" + file)
                     continue
             
     def get_crypto_names(self):
         return list(self._crypto_data.keys())
 
     def get_df(self, crypto_name):
-        return self._crypto_data.get(crypto_name)
+        return self._crypto_data.get(crypto_name, None)
 
     def get_prices(self, crypto_name):
         df = self.get_df(crypto_name)
-        if not crypto:
+        if df is None:
             return
         try:
             prices = df[['Close']].values.ravel()
+            return prices
         except Exception:
             log.exception("Error returning close price for ", crypto_name)
             return
-
-
-
-
-
-
-
 
 
