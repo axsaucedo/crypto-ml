@@ -14,7 +14,7 @@ def _setup_logger(name, log_file, level=logging.DEBUG):
 
     return logger
 
-# first file logger
+
 manager_logger = _setup_logger("manager", "logs/manager.log")
 worker_logger = _setup_logger("worker", 'logs/worker.log')
 

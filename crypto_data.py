@@ -4,8 +4,9 @@ from crypto_logger import manager_logger as log
 
 class CryptoLoader:
 
-    def __init__(self, data_path="data/crypto"):
+    def __init__(self, data_path="data/crypto", max_points=None):
         self._crypto_data = {}
+        self._max_points = max_points
         self._load_data(data_path=data_path)
 
     def _load_data(self, data_path=None):
@@ -24,6 +25,8 @@ class CryptoLoader:
                     df = pd.read_csv(os.path.join(data_path, file) 
                                         , parse_dates=['Date']
                                         , usecols=cols)
+                    if self._max_points:
+                        df = df.truncate(0, self._max_points)
                     # flip to ensure that latest date is at bottom (for ml models)
                     df = df.iloc[::-1]
                     # Remove extension, caps, and whitespace
