@@ -3,7 +3,7 @@ from crypto_utils import dump, load
 from crypto_models import ModelLibrary
 from crypto_logger import worker_logger as log
 
-app = Celery('celery', backend='amqp://guest@localhost//', broker='amqp://guest@localhost//')
+app = Celery('crypto_celery', backend='amqp://guest@localhost//', broker='amqp://guest@localhost//')
 
 @app.task
 def predict_task(model, p_x):
@@ -13,9 +13,8 @@ def predict_task(model, p_x):
             ml.__init__(model)
             x = load(p_x)
             result = ml.predict(x)
+            log.debug("Successfully predicted task on " + model)
             return dump(result)
         except Exception:
             log.exception("Error on task predicting with " + model)
-
-
 

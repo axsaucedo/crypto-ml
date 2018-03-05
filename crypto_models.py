@@ -38,7 +38,6 @@ def prophet(prices):
     forecast = m.predict(future)
     return forecast[['yhat']][-s:].values.reshape(1,-1)
 
-
 def get_models():
     _models = {}
     _models["svr_poly"] = svr_poly
