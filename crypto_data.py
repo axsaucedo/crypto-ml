@@ -24,6 +24,8 @@ class CryptoLoader:
                     df = pd.read_csv(os.path.join(data_path, file) 
                                         , parse_dates=['Date']
                                         , usecols=cols)
+                    # flip to ensure that latest date is at bottom (for ml models)
+                    df = df.iloc[::-1]
                     # Remove extension, caps, and whitespace
                     crypto_name = file[:-4].lower().replace(' ', '_')
                     self._crypto_data[crypto_name] = df

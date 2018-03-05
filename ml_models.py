@@ -4,8 +4,7 @@ from sklearn.svm import SVR
 import pandas as pd
 import numpy as np
 
-
-models = {}
+_models = {}
 
 def _svr_compute(model, prices):
     times = np.arange(prices.size).reshape(-1, 1)
@@ -17,25 +16,25 @@ def svr_poly(prices):
     model = SVR(kernel='poly', C=1e3, degree=2)
     return _svr_compute(model, prices)
 
-models["svr_poly"] = svr_poly
+_models["svr_poly"] = svr_poly
 
 def svr_rbf(prices):
     model = SVR(kernel='rbf', C=1e3, gamma=0.1)
     return _svr_compute(model, prices)
 
-models["svr_rbf"] = svr_rbf
+_models["svr_rbf"] = svr_rbf
 
 def svr_linear(prices):
     model = SVR(kernel='linear', C=1e3)
     return _svr_compute(model, prices)
 
-models["svr_linear"] = svr_linear
+_models["svr_linear"] = svr_linear
 
 def linear(prices):
     model = linear_model.LinearRegression()
     return _svr_compute(model, prices)
 
-models["linear"] = linear
+_models["linear"] = linear
 
 def prophet(prices):
     m = Prophet()
@@ -45,7 +44,28 @@ def prophet(prices):
     forecast = m.predict(future)
     return forecast[['yhat']][-s:]
 
-models["prophet"] = prophet
+_models["prophet"] = prophet
 
-models["default"] = linear
+_models["default"] = linear
+
+
+class ModelLibrary:
+
+    def __init__(self, name, models=_models):
+        self._model = self._get_model_or_default(name)
+        self._models = models
+
+    def predict(self, x):
+        result = self._model(x)
+        return result
+
+    def get_model_names(self):
+        return list(self._models.keys())
+
+    def _get_model_or_default(self, name):
+        self._models.get(name, self._get_default_model())
+
+    def _get_default_model(self):
+        return self._models["default"]
+
 
