@@ -2,12 +2,6 @@ from celery import Celery
 from utils import dump, load
 from models import models
 
-def dump(o):
-    return pickle.dumps(o).hex()
-
-def load(o):
-    return pickle.loads(bytearray.fromhex(o))
-
 app = Celery('tasks', backend='amqp://guest@localhost//', broker='amqp://guest@localhost//')
 
 @app.task
