@@ -1,4 +1,4 @@
-name: industrialml
+name: cryptoml
 channels:
 - defaults
 - conda-forge
