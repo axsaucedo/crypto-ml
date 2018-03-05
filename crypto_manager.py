@@ -1,6 +1,6 @@
 from crypto_data import CryptoLoader
-from celery_worker import predict_task
-from utils import dump, load
+from crypto_worker import predict_task
+from crypto_utils import dump, load
 from crypto_logger import manager_logger as log
 
 class CryptoManager:

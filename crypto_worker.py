@@ -1,6 +1,6 @@
 from celery import Celery
-from utils import dump, load
-from ml_models import ModelLibrary
+from crypto_utils import dump, load
+from crypto_models import ModelLibrary
 from crypto_logger import worker_logger as log
 
 app = Celery('celery', backend='amqp://guest@localhost//', broker='amqp://guest@localhost//')
