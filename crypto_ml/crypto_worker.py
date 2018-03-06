@@ -2,8 +2,15 @@ from celery import Celery
 from crypto_utils import dump, load
 from crypto_models import ModelLibrary
 from crypto_logger import worker_logger as log
+import os
 
-app = Celery('crypto_celery', backend='amqp://guest@localhost//', broker='amqp://guest@localhost//')
+CELERY_URL = os.getenv("CRYPTO_CELERY_URL", "rabbitmq")
+CELERY_USER = os.getenv("CRYPTO_CELERY_USER", "user")
+CELERY_PASS = os.getenv("CRYPTO_CELERY_PASS", "1234")
+
+app = Celery('crypto_celery',
+    backend=f'amqp://{CELERY_USER}:{CELERY_PASS}@{CELERY_URL}/',    
+    broker=f'amqp://{CELERY_USER}:{CELERY_PASS}@{CELERY_URL}/')
 
 @app.task
 def predict_task(model, p_x):

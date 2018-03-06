@@ -1,0 +1,32 @@
+version: '2'
+
+services:
+    manager:
+        container_name: crypto_manager
+        build: .
+        links:
+            - rabbitmq
+        depends_on:
+            - rabbitmq
+        command: tail -f /dev/null
+ 
+    worker:
+        container_name: crypto_worker
+        build: .
+        links:
+            - rabbitmq
+        depends_on:
+            - rabbitmq
+        command: /usr/local/envs/crypto_ml/bin/celery -A crypto_worker worker --prefetch-multiplier 1 --max-tasks-per-child 1 -O fair
+              
+    rabbitmq:
+        hostname: rabbitmq
+        image: rabbitmq:latest
+        environment:
+            - RABBITMQ_DEFAULT_USER=user
+            - RABBITMQ_DEFAULT_PASS=1234
+        ports:
+            - 4369
+            - 5672
+            - 15672
+

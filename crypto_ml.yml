@@ -1,4 +1,4 @@
-name: cryptoml
+name: crypto_ml
 channels:
 - defaults
 - conda-forge
@@ -11,9 +11,10 @@ dependencies:
 - setuptools        # MIT
 - pandas
 - matplotlib
+- fbprophet
 - pip:
   - celery                        # BSD
   - mock                          # BSD
   - fix_yahoo_finance
   - flower
-  - fbprophet
+  
