@@ -10,7 +10,6 @@ def predict_task(model, p_x):
         log.debug("Predict task start on " + model)
         try:
             ml = ModelLibrary(model)
-            ml.__init__(model)
             x = load(p_x)
             result = ml.predict(x)
             log.debug("Successfully predicted task on " + model)

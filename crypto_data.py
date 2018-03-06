@@ -4,8 +4,11 @@ from crypto_logger import manager_logger as log
 
 class CryptoLoader:
 
-    def __init__(self, data_path="data/crypto", max_points=None):
+    def __init__(self, data_path="data/crypto", max_points=None,
+            from_date=None, to_date=None):
         self._crypto_data = {}
+        self.from_date = from_date
+        self.to_date = to_date
         self._max_points = max_points
         self._load_data(data_path=data_path)
 
