@@ -5,5 +5,4 @@ WORKDIR /crypto_ml/
 
 RUN conda env create -f crypto_ml.yml
 RUN yum install mesa-libGL -y
-RUN mkdir /crypto_ml/logs/
 
