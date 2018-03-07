@@ -1,5 +1,5 @@
 from crypto_ml.utils import dump, load, worker_logger as log
-from crypto_ml.models import ModelLibrary
+from crypto_ml.ml import ModelLibrary
 from celery import Celery
 import os
 

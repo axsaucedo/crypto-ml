@@ -2,21 +2,26 @@ import pickle
 import logging
 import os
 
+file_path = os.path.dirname(os.path.abspath(__file__)) 
+
 def dump(o):
     return pickle.dumps(o).hex()
 
 def load(o):
     return pickle.loads(bytearray.fromhex(o))
 
-def _setup_logger(name, file, dir="logs/", level=logging.DEBUG):
+def _setup_logger(name
+        , file
+        , dir=os.path.join(file_path, "logs/")
+        , level=logging.DEBUG):
     """Function setup as many loggers as you want"""
 
     formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
     
-    if not os.path.exists(log_filedir):
-        os.makedirs(log_filedir)
+    if not os.path.exists(dir):
+        os.makedirs(dir)
 
-    handler = logging.FileHandler(log_filedir)
+    handler = logging.FileHandler(os.path.join(dir, file))
     handler.setFormatter(formatter)
 
     logger = logging.getLogger(name)

@@ -2,10 +2,14 @@ import os
 import pandas as pd
 from crypto_ml.utils import manager_logger as log
 
+file_path = os.path.dirname(os.path.abspath(__file__)) 
+
 class CryptoLoader:
 
-    def __init__(self, data_path="../data/crypto", max_points=None,
-            from_date=None, to_date=None):
+    def __init__(self
+            , data_path=os.path.join(file_path, "data/crypto")
+            , max_points=None
+            , from_date=None, to_date=None):
         self._crypto_data = {}
         self.from_date = from_date
         self.to_date = to_date
@@ -17,6 +21,7 @@ class CryptoLoader:
             self._load_from_path(data_path)
 
     def _load_from_path(self, data_path):
+        print([f for _,_,f in os.walk(data_path)])
         for _,_,files in os.walk(data_path):
             for file in files:
                 # Skipping file that describes all columns
