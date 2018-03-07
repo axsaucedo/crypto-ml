@@ -6,10 +6,11 @@ import os
 CELERY_URL = os.getenv("CRYPTO_CELERY_URL", "rabbitmq")
 CELERY_USER = os.getenv("CRYPTO_CELERY_USER", "user")
 CELERY_PASS = os.getenv("CRYPTO_CELERY_PASS", "1234")
+CELERY_VHOST = os.getenv("CRYPTO_CELERY_VHOST", "")
 
-app = Celery('crypto_celery',
-    backend=f'amqp://{CELERY_USER}:{CELERY_PASS}@{CELERY_URL}/',    
-    broker=f'amqp://{CELERY_USER}:{CELERY_PASS}@{CELERY_URL}/')
+app = Celery('crypto_ml',
+    backend=f'amqp://{CELERY_USER}:{CELERY_PASS}@{CELERY_URL}/{CELERY_VHOST}',    
+    broker=f'amqp://{CELERY_USER}:{CELERY_PASS}@{CELERY_URL}/{CELERY_VHOST}')
 
 @app.task
 def predict_task(model, p_x):
