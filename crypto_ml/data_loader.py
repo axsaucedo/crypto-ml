@@ -1,10 +1,10 @@
 import os
 import pandas as pd
-from crypto_logger import manager_logger as log
+from crypto_ml.utils import manager_logger as log
 
 class CryptoLoader:
 
-    def __init__(self, data_path="data/crypto", max_points=None,
+    def __init__(self, data_path="../data/crypto", max_points=None,
             from_date=None, to_date=None):
         self._crypto_data = {}
         self.from_date = from_date

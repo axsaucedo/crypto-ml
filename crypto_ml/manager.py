@@ -1,7 +1,6 @@
-from crypto_data import CryptoLoader
-from crypto_worker import predict_task
-from crypto_utils import dump, load
-from crypto_logger import manager_logger as log
+from crypto_ml.data_loader import CryptoLoader
+from crypto_ml.worker import predict_task
+from crypto_ml.utils import dump, load, manager_logger as log
 
 class CryptoManager:
 

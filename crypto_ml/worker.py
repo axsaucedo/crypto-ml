@@ -1,7 +1,6 @@
+from crypto_ml.utils import dump, load, worker_logger as log
+from crypto_ml.models import ModelLibrary
 from celery import Celery
-from crypto_utils import dump, load
-from crypto_models import ModelLibrary
-from crypto_logger import worker_logger as log
 import os
 
 CELERY_URL = os.getenv("CRYPTO_CELERY_URL", "rabbitmq")

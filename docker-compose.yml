@@ -21,7 +21,7 @@ services:
               
     rabbitmq:
         hostname: rabbitmq
-        image: rabbitmq:latest
+        image: rabbitmq:3.6.0
         environment:
             - RABBITMQ_DEFAULT_USER=user
             - RABBITMQ_DEFAULT_PASS=1234

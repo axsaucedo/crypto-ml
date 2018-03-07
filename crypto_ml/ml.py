@@ -4,7 +4,7 @@ from sklearn import linear_model
 from sklearn.svm import SVR
 import pandas as pd
 import numpy as np
-from crypto_logger import worker_logger as log
+from crypto_ml.utils import worker_logger as log
 
 def _svr_compute(model, prices):
     times = np.arange(prices.size).reshape(-1, 1)
