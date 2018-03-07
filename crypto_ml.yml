@@ -3,18 +3,17 @@ channels:
 - defaults
 - conda-forge
 dependencies:
-- python=3.6.1      # PSF
-- numpy             # BSD-new
-- pytest            # MIT
-- scipy             # BSD
-- scikit-learn      # BSD
-- setuptools        # MIT
+- python=3.6.1  
+- numpy      
+- pytest       
+- scipy       
+- scikit-learn   
+- setuptools    
 - pandas
 - matplotlib
 - fbprophet
 - pip:
-  - celery                        # BSD
-  - mock                          # BSD
+  - celery
+  - mock 
   - fix_yahoo_finance
   - flower
-  

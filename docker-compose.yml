@@ -3,6 +3,7 @@ version: '2'
 services:
     manager:
         container_name: crypto_manager
+        image: crypto_ml
         build: .
         links:
             - rabbitmq
@@ -12,15 +13,16 @@ services:
  
     worker:
         container_name: crypto_worker
+        image: crypto_ml
         build: .
         links:
             - rabbitmq
         depends_on:
             - rabbitmq
-        command: /usr/local/envs/crypto_ml/bin/celery -A crypto_worker worker --prefetch-multiplier 1 --max-tasks-per-child 1 -O fair
+        command: /usr/local/envs/crypto_ml/bin/celery -A crypto_ml worker --prefetch-multiplier 1 --max-tasks-per-child 1 -O fair
               
     rabbitmq:
-        hostname: rabbitmq
+        container_name: rabbitmq
         image: rabbitmq:3.6.0
         environment:
             - RABBITMQ_DEFAULT_USER=user

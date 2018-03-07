@@ -14,4 +14,15 @@ To build the environment using conda:
 conda env create -f crypto_ml.yml 
 ```
 
+## Containerised setup
+
+Make sure you have the following installations:
+* Minikube
+* kubectl
+
+Start a minikube server:
+```
+minikube start
+```
+
 

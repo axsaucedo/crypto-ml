@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  labels:
+    component: celery
+  name: celery-controller
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: taskQueue
+        component: celery
+    spec:
+      containers:
+      - image: crypto_ml:latest
+        name: celery
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 5672
+        resources:
+          limits:
+            cpu: 100m
+        command: ["/bin/sh","-c"]
+        args: ["cd /crypto_ml && /usr/local/envs/crypto_ml/bin/celery -A crypto_ml worker --prefetch-multiplier 1 --max-tasks-per-child 1 -O fair"]

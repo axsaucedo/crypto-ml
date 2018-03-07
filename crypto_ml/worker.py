@@ -3,10 +3,10 @@ from crypto_ml.ml import ModelLibrary
 from celery import Celery
 import os
 
-CELERY_URL = os.getenv("CRYPTO_CELERY_URL", "rabbitmq")
-CELERY_USER = os.getenv("CRYPTO_CELERY_USER", "user")
-CELERY_PASS = os.getenv("CRYPTO_CELERY_PASS", "1234")
-CELERY_VHOST = os.getenv("CRYPTO_CELERY_VHOST", "")
+CELERY_URL = os.getenv("RABBITMQ_SERVICE_SERVICE_HOST", "localhost")
+CELERY_USER = os.getenv("CRYPTO_RABBITMQ_USER", "user")
+CELERY_PASS = os.getenv("CRYPTO_RABBITMQ_PASS", "1234")
+CELERY_VHOST = os.getenv("CRYPTO_RABBITMQ_VHOST", "")
 
 app = Celery('crypto_ml',
     backend=f'amqp://{CELERY_USER}:{CELERY_PASS}@{CELERY_URL}/{CELERY_VHOST}',    
