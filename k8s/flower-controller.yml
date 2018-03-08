@@ -13,8 +13,15 @@ spec:
         component: flower
     spec:
       containers:
-      - image: endocode/flower
+      - image: crypto_ml:latest
         name: flower
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 5555
+        resources:
         resources:
           limits:
             cpu: 100m
+        command: ["/bin/sh","-c"]
+        args: ["cd /crypto_ml && /usr/local/envs/crypto_ml/bin/celery -A crypto_ml flower --address=0.0.0.0 --port=5555"]
+
