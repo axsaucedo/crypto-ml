@@ -2,6 +2,8 @@
 This is the code for the Industrial Machine Learning 
 pipelines at the PyCon SK (Bratislava) 2017.
 
+The slides for the machine learning pycon conference can be found here: [](https://github.com/axsauze/industrial-machine-learning)
+
 ## Dev setup
 
 In order to configure, you will need:
