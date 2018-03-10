@@ -6,14 +6,11 @@ dependencies:
 - python=3.6.1  
 - numpy      
 - pytest       
-- scipy       
 - scikit-learn   
-- setuptools    
 - pandas
-- matplotlib
-- fbprophet
+- cython
+- pystan==2.17
+- fbprophet==0.2
 - pip:
   - celery
-  - mock 
-  - fix_yahoo_finance
   - flower

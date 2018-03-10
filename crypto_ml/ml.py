@@ -2,15 +2,93 @@ from fbprophet import Prophet
 from datetime import datetime, timedelta
 from sklearn import linear_model
 from sklearn.svm import SVR
+from keras.layers.core import Dense, Activation, Dropout
+from keras.layers.recurrent import LSTM
+from keras.models import Sequential
 import pandas as pd
 import numpy as np
-from crypto_ml.utils import worker_logger as log
+from crypto_ml.utils import get_rnn_model, worker_logger as log
+
+
+def get_rnn_model():
+    model = Sequential()
+    model.add(LSTM(input_dim=1, output_dim=50, return_sequences=True))
+    model.add(Dropout(0.2))
+
+    model.add(LSTM(100, return_sequences=False))
+    model.add(Dropout(0.2))
+
+    model.add(Dense(output_dim=1))
+    model.add(Activation('linear'))
+
+    model.compile(loss="mse", optimizer="rmsprop")
+
+    return model
+
+def rnn_predict(model, data, original, prediction_len=10):
+
+    predictions = []
+    d_predictions = []
+
+    window = data.shape[1]
+
+    # Start with the latest set of data
+    base_frame = data[-1].copy()
+    base_original = original[-window:].copy()
+
+    for i in range(prediction_len):
+        prediction = model.predict(base_frame[np.newaxis,:,:])[0,0]
+        denormalised = base_original[i] * (prediction + 1)
+        base_frame = base_frame[1:]
+
+        np.append(base_frame, prediction)
+        np.append(base_original, denormalised)
+        predictions.append(prediction)
+        d_predictions.append(denormalised)
+
+    return d_predictions, predictions
+
+
+def build_lstm_data(data, seq_len=50):
+
+    sequence_length = seq_len + 1
+    result = []
+
+    for index in range(len(data) - sequence_length):
+        result.append(data[index: index + sequence_length])
+
+    n_result = normalise_windows(result)
+
+    n_result = np.array(n_result)
+
+    x = n_result[:, :-1]
+    y = n_result[:, -1]
+
+    x = np.reshape(x, (x.shape[0], x.shape[1], 1))
+
+    return x, y
+
+def normalise_windows(window_data):
+    normalised_data = []
+    for window in window_data:
+        normalised_window = [((float(p) / float(window[0])) - 1) for p in window]
+        normalised_data.append(normalised_window)
+    return normalised_data
+
 
 def _svr_compute(model, prices):
-    times = np.arange(prices.size).reshape(-1, 1)
+    p = 10
+    s = prices.size
+
+    # Create a t time axis
+    times = np.arange(s).reshape(-1, 1)
+
     model.fit(times, prices)
-    p_arr = np.arange(prices.size).reshape(-1, 1)
-    return model.predict(p_arr)[-10:]
+
+    # Create a list of the following p predictions
+    p_arr = np.arange(s+1, s+p+1).reshape(-1, 1)
+
+    return model.predict(p_arr)
 
 def svr_poly(prices):
     model = SVR(kernel='poly', C=1e3, degree=2)
@@ -38,6 +116,19 @@ def prophet(prices):
     forecast = m.predict(future)
     return forecast[['yhat']][-s:].values.reshape(1,-1)
 
+def deep_predict(prices):
+    p = 10
+
+    model = get_rnn_model()
+
+    x, y = build_lstm_data(prices, 50)
+
+    model.fit(x, y, batch_size=512, nb_epoch=1, validation_split=0.05)
+
+    predict_times = rnn_predict(model, x, prices)
+
+    return predict_times
+
 def get_models():
     _models = {}
     _models["svr_poly"] = svr_poly
@@ -45,6 +136,7 @@ def get_models():
     _models["svr_linear"] = svr_linear
     _models["prophet"] = prophet
     _models["linear"] = linear
+    _models["deep_predict"] = deep_predict
     _models["default"] = linear
     return _models
 

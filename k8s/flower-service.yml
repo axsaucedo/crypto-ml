@@ -10,4 +10,4 @@ spec:
   selector:
     app: taskQueue
     component: flower
-  type: LoadBalancer
+  type: NodePort

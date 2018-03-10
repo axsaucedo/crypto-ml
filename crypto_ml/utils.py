@@ -33,3 +33,23 @@ def _setup_logger(name
 manager_logger = _setup_logger("manager", "manager.log")
 worker_logger = _setup_logger("worker", "worker.log")
 
+
+from keras.layers.core import Dense, Activation, Dropout
+from keras.layers.recurrent import LSTM
+from keras.models import Sequential
+
+def get_rnn_model():
+    model = Sequential()
+    model.add(LSTM(input_dim=1, output_dim=50, return_sequences=True))
+    model.add(Dropout(0.2))
+
+    model.add(LSTM(100, return_sequences=False))
+    model.add(Dropout(0.2))
+
+    model.add(Dense(output_dim=1))
+    model.add(Activation('linear'))
+
+    model.compile(loss="mse", optimizer="rmsprop")
+
+    return model
+
