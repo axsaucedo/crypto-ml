@@ -7,8 +7,7 @@ pipelines at the PyCon SK (Bratislava) 2017.
 Presentation briefly introducing deep learning and how to apply a specific subset of deep learning, recurrent neural networks, to solve real world problems.
 
 #### Slides: [http://axsauze.github.io/industrial-machine-learning/](http://axsauze.github.io/industrial-machine-learning/)
-#### Slides Repo: [https://github.com/axsauze/crypto_ml](https://github.com/axsauze/crypto_ml)
-
+#### Slides Repo: [https://github.com/axsauze/industrial-machine-learning/](https://github.com/axsauze/industrial-machine-learning/)
 
 
 ## Dev setup
